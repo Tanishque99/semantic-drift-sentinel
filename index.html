@@ -177,6 +177,7 @@
       <a href="#problem">Problem</a>
       <a href="#architecture">Architecture</a>
       <a href="#result">The catch</a>
+      <a href="#datasets">Datasets</a>
       <a href="#backends">Backends</a>
       <a href="#run">Run it</a>
     </div>
@@ -199,7 +200,7 @@
     <div class="hero-meta">
       <span><b>5</b> layers, one loop</span>
       <span><b>BigQuery → Cloud Run → Jev</b> → circuit breaker → closed loop</span>
-      <span><b>Zero</b> API keys to demo</span>
+      <span><b>Two</b> drift datasets, one loop</span>
     </div>
   </div>
 </header>
@@ -327,29 +328,29 @@
   <div class="wrap">
     <div class="kicker reveal">The catch</div>
     <h2 class="reveal">Every check green. The sentinel trips anyway.</h2>
-    <p class="lead reveal">Real output from <code>make demo</code> on the sample dataset. v1 is the healthy baseline; v2 is the silently-drifted deployment that passed all deterministic checks.</p>
+    <p class="lead reveal">Real output from <code>make demo-tickets</code> on the support-ticket dataset. v1 is the healthy baseline; v2 is the silently-drifted deployment that passed all deterministic checks.</p>
     <div class="result">
       <div class="card reveal">
         <h3 style="margin-top:0">Mean semantic quality</h3>
         <div class="bars">
           <div class="bar-row">
-            <div class="lab"><span>v1 — baseline</span><b class="c-g" data-count="0.933">0.000</b></div>
-            <div class="track"><div class="fill v1" data-w="93.3"></div></div>
+            <div class="lab"><span>v1 — baseline</span><b class="c-g" data-count="0.966">0.000</b></div>
+            <div class="track"><div class="fill v1" data-w="96.6"></div></div>
           </div>
           <div class="bar-row">
-            <div class="lab"><span>v2 — after deploy</span><b class="c-r" data-count="0.532">0.000</b></div>
-            <div class="track"><div class="fill v2" data-w="53.2"></div></div>
+            <div class="lab"><span>v2 — after deploy</span><b class="c-r" data-count="0.374">0.000</b></div>
+            <div class="track"><div class="fill v2" data-w="37.4"></div></div>
           </div>
         </div>
         <div class="mini">
-          <div class="stat"><div class="n c-r">+0.40</div><div class="l">semantic drift (v1 → v2)</div></div>
+          <div class="stat"><div class="n c-r">+0.59</div><div class="l">semantic drift (v1 → v2)</div></div>
           <div class="stat"><div class="n c-a">3 rows</div><div class="l">routed to human review</div></div>
         </div>
       </div>
       <div class="verdict reveal">
         <span class="breaker">🚨 CIRCUIT BREAKER — OPEN</span>
         <div class="big c-r">Tripped.</div>
-        <p style="color:var(--muted);margin:0 0 4px;font-size:14.5px">Reason: semantic drift <b>0.40 &gt; 0.15</b>; mean quality <b>0.53 &lt; 0.70</b> floor.</p>
+        <p style="color:var(--muted);margin:0 0 4px;font-size:14.5px">Reason: semantic drift <b>0.59 &gt; 0.15</b>; mean quality <b>0.37 &lt; 0.70</b> floor.</p>
         <p style="color:var(--muted);font-size:14.5px;margin-top:14px">The core question, answered automatically on every deployment:</p>
         <p style="font-weight:700;font-size:16px;margin:4px 0 0">Did this deployment preserve the meaning of our data — and can we prove it at scale?</p>
       </div>
@@ -369,14 +370,79 @@
 
 <span class="c-f">─── 4 · data circuit breaker ───</span>
  <span class="c-r">🚨 CIRCUIT BREAKER TRIPPED (OPEN)</span>
-    mean quality   0.532     drift vs base   +0.401
+    mean quality   0.374     drift vs base   +0.591
     actions        fired pipeline alert · routed 3 rows to human review
 
 <span class="c-f">─── operational metrics ───</span>
-    mean quality · v1        <span class="c-g">0.933</span>
-    mean quality · v2        <span class="c-r">0.532</span>
-    semantic drift (v1→v2)   <span class="c-r">+0.401</span>
-    human vs evaluator disagreement   31%
+    mean quality · v1        <span class="c-g">0.966</span>
+    mean quality · v2        <span class="c-r">0.374</span>
+    semantic drift (v1→v2)   <span class="c-r">+0.591</span>
+    human vs evaluator disagreement   12%
+</pre>
+    </div>
+  </div>
+</section>
+
+<!-- DATASETS -->
+<section class="section" id="datasets">
+  <div class="wrap">
+    <div class="kicker reveal">Two drift scenarios</div>
+    <h2 class="reveal">Same loop, two kinds of silent drift.</h2>
+    <p class="lead reveal">The pipeline is generic over its data (<code>datasets.py</code>); pick one with <code>DATASET=tickets|goods</code>. In both, every deterministic check stays green and only the semantic evaluator catches the regression.</p>
+    <div class="split">
+      <div class="card reveal">
+        <div class="t" style="display:flex;justify-content:space-between;align-items:center">
+          <h3>Support tickets</h3><span class="tag bad">free-text drift</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;margin:10px 0 0">v2 resolution summaries silently stop addressing the ticket.</p>
+        <p style="font-size:13.5px;margin:10px 0 0;line-height:1.9">
+          <span class="c-g mono">v1</span> &nbsp;"Confirmed the duplicate charge and issued a refund."<br/>
+          <span class="c-r mono">v2</span> &nbsp;"You can view invoices in Account Settings."
+        </p>
+        <div class="mini">
+          <div class="stat"><div class="n c-r">+0.59</div><div class="l">semantic drift (v1 → v2)</div></div>
+          <div class="stat"><div class="n c-r">0.37</div><div class="l">v2 mean quality</div></div>
+        </div>
+        <p style="font-size:12.5px;color:var(--faint);margin-top:12px" class="mono">make demo-tickets</p>
+      </div>
+      <div class="card reveal">
+        <div class="t" style="display:flex;justify-content:space-between;align-items:center">
+          <h3>Consumer goods</h3><span class="tag bad">category drift</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;margin:10px 0 0">v2 silently miscategorises products into a different <b>valid</b> category; the string is fine, the meaning is wrong.</p>
+        <p style="font-size:13.5px;margin:10px 0 0;line-height:1.9">
+          <span class="mono">iPhone 15 Pro</span><br/>
+          <span class="c-g mono">Mobile</span> <span class="c-f">→</span> <span class="c-r mono">Home Appliances</span>
+        </p>
+        <div class="mini">
+          <div class="stat"><div class="n c-r">+0.70</div><div class="l">semantic drift (v1 → v2)</div></div>
+          <div class="stat"><div class="n c-r">0.22</div><div class="l">v2 mean quality</div></div>
+        </div>
+        <p style="font-size:12.5px;color:var(--faint);margin-top:12px" class="mono">make demo-goods</p>
+      </div>
+    </div>
+
+    <div class="term reveal" style="margin-top:22px">
+      <div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><span class="f">make demo-goods</span></div>
+<pre>
+<span class="c-f">─── 1 · BigQuery · deterministic SQL checks ───</span>
+ v1   completeness <span class="c-g">PASS</span>   schema <span class="c-g">PASS</span>   uniqueness <span class="c-g">PASS</span>   freshness <span class="c-g">PASS</span>
+ v2   completeness <span class="c-g">PASS</span>   schema <span class="c-g">PASS</span>   uniqueness <span class="c-g">PASS</span>   freshness <span class="c-g">PASS</span>   <span class="c-f">← Home Appliances is a valid category</span>
+
+<span class="c-f">─── 2-3 · Cloud Run async adapter → Jev typed eval ───</span>
+ → routing 12 v2 rows (backend=<span class="c-m">jev</span>, concurrency=8)
+ SKU-000  iPhone 15 Pro      category_ok <span class="c-r">0.01</span>   catalog <span class="c-r">1.0</span>/5   quality <span class="c-r">0.19</span>
+ SKU-009  Dyson V15 Vacuum   category_ok <span class="c-r">0.02</span>   catalog <span class="c-r">1.0</span>/5   quality <span class="c-r">0.19</span>
+
+<span class="c-f">─── 4 · data circuit breaker ───</span>
+ <span class="c-r">🚨 CIRCUIT BREAKER TRIPPED (OPEN)</span>
+    mean quality   0.223     drift vs base   +0.698
+    actions        fired pipeline alert · routed 3 rows to human review
+
+<span class="c-f">─── operational metrics ───</span>
+    mean quality · v1        <span class="c-g">0.921</span>
+    mean quality · v2        <span class="c-r">0.223</span>
+    semantic drift (v1→v2)   <span class="c-r">+0.698</span>
 </pre>
     </div>
   </div>
