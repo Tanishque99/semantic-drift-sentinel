@@ -135,7 +135,7 @@
   .c-g{color:var(--green)}.c-r{color:var(--red)}.c-a{color:var(--amber)}.c-b{color:var(--blue2)}.c-m{color:var(--jev2)}.c-f{color:var(--faint)}
 
   /* backends */
-  .backends{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+  .backends{display:grid;grid-template-columns:1fr;gap:16px;margin-top:34px;max-width:480px}
   @media(max-width:760px){.backends{grid-template-columns:1fr}}
   .be{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--radius);padding:22px;position:relative}
   .be.default{border-color:rgba(255,45,155,.4);box-shadow:0 0 0 1px rgba(255,45,155,.12),0 18px 50px rgba(255,45,155,.08)}
@@ -282,7 +282,7 @@
           <div class="t"><h3>Jev — TypeSafe semantic evaluation</h3><span class="pill">state + questions → typed answers</span></div>
           <p>Batched rows go to the evaluation layer for model inference and <b>strict structural JSON scoring</b>. Every answer validates against a typed contract (Noul / Choice / Score with calibrated probabilities) — no free text to parse.</p>
           <div class="detail">
-            <div class="row"><b>In the repo</b><span>evaluator/ (jev | claude | mock) + schemas.py</span></div>
+            <div class="row"><b>In the repo</b><span>evaluator/ (jev) + schemas.py</span></div>
             <div class="row"><b>Question</b><span>"Does the resolution_summary actually address the ticket?"</span></div>
           </div>
         </div>
@@ -363,7 +363,7 @@
  v2   completeness <span class="c-g">PASS</span>   schema <span class="c-g">PASS</span>   uniqueness <span class="c-g">PASS</span>   freshness <span class="c-g">PASS</span>   <span class="c-f">← all green</span>
 
 <span class="c-f">─── 2-3 · Cloud Run async adapter → Jev typed eval ───</span>
- → routing 13 v2 rows (backend=<span class="c-m">claude</span>, concurrency=8)
+ → routing 13 v2 rows (backend=<span class="c-m">jev</span>, concurrency=8)
  TCK-001  addresses_ticket <span class="c-r">0.02</span>   resolution <span class="c-r">1.0</span>/5   quality <span class="c-r">0.19</span>
  TCK-004  addresses_ticket <span class="c-g">0.98</span>   resolution <span class="c-g">5.0</span>/5   quality <span class="c-g">0.97</span>
 
@@ -385,25 +385,15 @@
 <!-- BACKENDS -->
 <section class="section" id="backends">
   <div class="wrap">
-    <div class="kicker reveal">One typed contract, three backends</div>
-    <h2 class="reveal">Swap the judge with one env var.</h2>
-    <p class="lead reveal">Every backend returns answers that validate against the same schema, so the pipeline never parses free text. Flip <code>JEV_BACKEND</code> live on stage — nothing else in the pipeline moves.</p>
+    <div class="kicker reveal">The typed boundary</div>
+    <h2 class="reveal">One judge: Jev.</h2>
+    <p class="lead reveal">Jev returns answers that validate against a typed schema, so the pipeline never parses free text. The boundary in <code>schemas.py</code> is deliberately backend-agnostic, so the evaluator can be swapped without the rest of the pipeline moving.</p>
     <div class="backends">
-      <div class="be reveal">
-        <div class="name c-m">jev</div>
-        <p>The real <a href="https://typesafe.ai" target="_blank">TypeSafe AI</a> "System One" model — the production path in the diagram. Purpose-built typed decisions with calibrated probabilities.</p>
-        <div class="need">needs TYPESAFE_API_KEY + typesafe-sdk</div>
-      </div>
       <div class="be default reveal">
-        <span class="badge">demo default</span>
-        <div class="name c-b">claude</div>
-        <p>Claude as a System-One judge via forced tool use, implementing the exact same Noul / Score contract. Runs on any laptop with an Anthropic key.</p>
-        <div class="need">needs ANTHROPIC_API_KEY</div>
-      </div>
-      <div class="be reveal">
-        <div class="name c-g">mock</div>
-        <p>Deterministic, offline, zero keys. Reads real row content so it genuinely detects the planted drift. Guarantees <code>git clone &amp;&amp; make demo</code> always runs live.</p>
-        <div class="need">needs nothing</div>
+        <span class="badge">production path</span>
+        <div class="name c-m">jev</div>
+        <p>The real <a href="https://typesafe.ai" target="_blank">TypeSafe AI</a> "System One" model, the production path in the diagram. Purpose-built typed decisions with calibrated probabilities.</p>
+        <div class="need">needs TYPESAFE_API_KEY + typesafe-sdk</div>
       </div>
     </div>
   </div>
@@ -431,17 +421,20 @@
     <div class="steps">
       <div class="reveal">
         <div class="term">
-          <div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><span class="f">zero keys required</span></div>
+          <div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><span class="f">needs TYPESAFE_API_KEY</span></div>
 <pre>
 <span class="c-f"># clone</span>
 git clone https://github.com/\
   Tanishque99/semantic-drift-sentinel
 cd semantic-drift-sentinel
 
-<span class="c-f"># install core deps</span>
+<span class="c-f"># install deps</span>
 make install
 
-<span class="c-f"># run the full loop (mock backend)</span>
+<span class="c-f"># set your key (or put it in .env)</span>
+export TYPESAFE_API_KEY=ts-...
+
+<span class="c-f"># run the full loop (Jev backend)</span>
 make demo
 </pre>
         </div>
@@ -449,13 +442,9 @@ make demo
       <div class="reveal">
         <div class="card">
           <h3 style="margin-top:0">Then go live</h3>
-          <p style="color:var(--muted);font-size:14.5px">Point it at a real judge when you are ready:</p>
+          <p style="color:var(--muted);font-size:14.5px">Run the adapter as a service and deploy the real topology:</p>
           <pre class="mono" style="background:#0a0a14;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:13px;overflow-x:auto;margin:14px 0 0">
-<span class="c-f"># Claude-backed judge</span>
-export ANTHROPIC_API_KEY=sk-ant-...
-make claude
-
-<span class="c-f"># the real Jev product</span>
+<span class="c-f"># the Jev backend, explicitly</span>
 export TYPESAFE_API_KEY=ts-...
 make jev
 

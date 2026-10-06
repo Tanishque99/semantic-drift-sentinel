@@ -1,9 +1,8 @@
 """Evaluator protocol + shared aggregation logic.
 
-Every backend takes the same input (a row's `state` + the shared `questions`)
-and returns the same typed `Answer` objects. That uniformity is what lets you
-flip `JEV_BACKEND` between `jev`, `claude`, and `mock` without touching the rest
-of the pipeline.
+The backend takes a row's `state` + the shared `questions` and returns typed
+`Answer` objects. Keeping this behind a protocol means the rest of the pipeline
+never depends on the backend implementation.
 """
 
 from __future__ import annotations

@@ -12,7 +12,7 @@ compute budget. It treats a semantic quality score as a first-class ops metric
 you monitor in production, with a circuit breaker at the gate.
 
 > Built for a 5-minute live demo at **AI Tinkerers Phoenix**. `git clone` →
-> `make demo` → live output in under a minute, zero API keys required.
+> set `TYPESAFE_API_KEY` → `make demo` → live output in under a minute.
 
 **📊 Visual explainer:** [**tanishque99.github.io/semantic-drift-sentinel**](https://tanishque99.github.io/semantic-drift-sentinel/) — an interactive walkthrough of the whole pattern (also in [`index.html`](index.html), open it locally with no server).
 
@@ -20,7 +20,8 @@ you monitor in production, with a circuit breaker at the gate.
 git clone https://github.com/Tanishque99/semantic-drift-sentinel
 cd semantic-drift-sentinel
 make install
-make demo         # runs the full loop on sample data with the zero-key mock backend
+export TYPESAFE_API_KEY=ts-...   # or put it in a local .env file
+make demo         # runs the full loop on sample data against Jev
 ```
 
 ---
@@ -82,28 +83,22 @@ The core question, answered automatically on every deployment:
 
 ## The typed evaluator (the "TypeSafe" boundary)
 
-Every backend returns answers that validate against the same pydantic schema, so
-the pipeline never parses free text. The contract mirrors Jev's own
+The semantic layer is powered by [**Jev**](https://typesafe.ai), the TypeSafe AI
+"System One" model. Its answers validate against a pydantic schema, so the
+pipeline never parses free text. The contract mirrors Jev's own
 `state + questions → typed answers` shape (Noul / Choice / Score):
 
-| Backend | When it's used | Needs |
-|---------|----------------|-------|
-| `mock` | default with no keys — deterministic, offline | nothing |
-| `claude` | default when `ANTHROPIC_API_KEY` is set | `pip install anthropic` |
-| `jev` | the real [TypeSafe AI](https://typesafe.ai) product; the production path | `pip install typesafe-sdk` + `TYPESAFE_API_KEY` |
-
-Auto-selection: `JEV_BACKEND` if set, else `jev` (if `TYPESAFE_API_KEY`), else
-`claude` (if `ANTHROPIC_API_KEY`), else `mock`. Flip it live:
+| Backend | Needs |
+|---------|-------|
+| `jev` | the real [TypeSafe AI](https://typesafe.ai) product; `pip install typesafe-sdk` + `TYPESAFE_API_KEY` |
 
 ```bash
-make demo              # auto
-make claude            # JEV_BACKEND=claude
-make jev               # JEV_BACKEND=jev   (real Jev)
+make demo              # runs the loop against Jev
+make jev               # same, with JEV_BACKEND=jev set explicitly
 ```
 
-The `claude` backend implements the exact same typed Noul/Score contract via
-forced tool use, so swapping to real Jev is a one-env-var change — nothing else
-in the pipeline moves.
+The typed boundary (`schemas.py`) is deliberately backend-agnostic, so the
+evaluator can be swapped out without the rest of the pipeline moving.
 
 ---
 
@@ -144,17 +139,17 @@ for BigQuery and maps 1:1 onto the local DuckDB implementation.
 ```
 src/sentinel/
   schemas.py         typed contracts (Noul/Choice/Score) — the TypeSafe boundary
-  config.py          env-driven settings + backend auto-selection
+  config.py          env-driven settings (reads TYPESAFE_API_KEY)
   sampledata.py      deterministic v1/v2 dataset with planted semantic drift
   warehouse.py       layer 1 + 5: deterministic checks, routing, closed loop
   adapter.py         layer 2: async batching, retries, idempotency, throttling
-  evaluator/         layer 3: jev | claude | mock behind one interface
+  evaluator/         layer 3: the Jev evaluator behind one interface
   circuit_breaker.py layer 4: semantic thresholds, trip, route to review
   metrics.py         operational metrics
   demo.py            the end-to-end live demo
 bigquery/            the same checks + metrics schema, written for BigQuery
 deploy/              Dockerfile + Cloud Run / BigQuery deploy notes
-tests/               smoke tests (run on the zero-key mock backend)
+tests/               smoke tests (semantic tests need TYPESAFE_API_KEY)
 ```
 
 ---

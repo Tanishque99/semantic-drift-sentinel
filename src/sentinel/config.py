@@ -1,12 +1,8 @@
 """Central configuration, read from the environment.
 
-The guiding principle of the whole demo: `git clone && make demo` must produce
-live output with zero API keys. So the evaluator backend auto-selects:
-
-    JEV_BACKEND set            -> use it (jev | claude | mock)
-    else TYPESAFE_API_KEY set  -> jev   (the production path from the diagram)
-    else ANTHROPIC_API_KEY set -> claude
-    else                       -> mock  (deterministic, no network)
+The semantic layer is powered by Jev, the TypeSafe AI "System One" model (the
+production path from the diagram). Set `TYPESAFE_API_KEY` (e.g. in a local
+`.env` file) and `make demo` runs the full loop against it.
 """
 
 from __future__ import annotations
@@ -14,16 +10,20 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
+# Load a local .env file if python-dotenv is installed, so keys placed in .env
+# are picked up automatically (no `source .env` needed). Optional: if the
+# package is absent the demo still runs with environment variables alone.
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+except ModuleNotFoundError:
+    pass
+
 
 def _auto_backend() -> str:
-    explicit = os.getenv("JEV_BACKEND")
-    if explicit:
-        return explicit.strip().lower()
-    if os.getenv("TYPESAFE_API_KEY"):
-        return "jev"
-    if os.getenv("ANTHROPIC_API_KEY"):
-        return "claude"
-    return "mock"
+    # Jev is the only backend; the env var is kept for forward compatibility.
+    return os.getenv("JEV_BACKEND", "jev").strip().lower()
 
 
 @dataclass(frozen=True)
@@ -31,8 +31,7 @@ class Settings:
     # Which evaluator backend powers the semantic layer.
     backend: str = _auto_backend()
 
-    # Models per backend.
-    claude_model: str = os.getenv("CLAUDE_MODEL", "claude-haiku-4-5")
+    # Model for the Jev backend.
     jev_model: str = os.getenv("JEV_MODEL", "jev-1.13.0")
 
     # Cloud Run adapter limits (the engineering boundary the post is about).
@@ -55,7 +54,6 @@ class Settings:
 
     # Pricing for the cost-per-loop operational metric (USD / 1M input tokens).
     jev_price_per_mtok: float = 0.042
-    claude_price_per_mtok: float = 0.80  # Haiku-class input, approx.
 
 
 settings = Settings()

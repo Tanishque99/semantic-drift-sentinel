@@ -1,9 +1,9 @@
 """Typed contracts for the semantic evaluation layer.
 
-This is the "TypeSafe" boundary in the architecture: every evaluator backend
-(Jev, Claude, mock) must return answers that validate against these schemas, so
-the rest of the pipeline never parses free text. It mirrors Jev's own
-`state + questions -> typed answers` contract (Noul / Choice / Score).
+This is the "TypeSafe" boundary in the architecture: the Jev evaluator must
+return answers that validate against these schemas, so the rest of the pipeline
+never parses free text. It mirrors Jev's own `state + questions -> typed
+answers` contract (Noul / Choice / Score).
 """
 
 from __future__ import annotations
@@ -28,6 +28,9 @@ class Question(BaseModel):
     instructions: str
     # Only used for CHOICE questions: option_key -> what it means.
     criteria: dict[str, str] = Field(default_factory=dict)
+    # Only used for SCORE questions: an ordered rubric, low end -> high end.
+    # Jev requires these level descriptions.
+    levels: list[str] = Field(default_factory=list)
 
 
 class Answer(BaseModel):
@@ -115,6 +118,13 @@ DEMO_QUESTIONS: list[Question] = [
             "on a 1-5 scale, where 1 is irrelevant/generic and 5 is a complete, "
             "specific resolution."
         ),
+        levels=[
+            "Irrelevant or generic; does not engage the customer's actual issue.",
+            "Barely relevant; mentions the topic but offers no real resolution.",
+            "Partially addresses the issue but leaves it largely unresolved.",
+            "Mostly resolves the issue with minor gaps.",
+            "Complete, specific resolution of the customer's actual issue.",
+        ],
     ),
 ]
 

@@ -7,7 +7,7 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
 
 COPY pyproject.toml requirements.txt ./
-RUN pip install -e ".[serve,claude,jev]" || pip install -r requirements.txt fastapi uvicorn anthropic
+RUN pip install -e ".[serve]" || pip install -r requirements.txt fastapi uvicorn
 
 COPY src ./src
 RUN pip install -e .

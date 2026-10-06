@@ -1,18 +1,24 @@
 """Smoke tests: the deterministic checks pass yet the sentinel catches drift.
 
-These run with the zero-key mock backend, so CI needs no secrets.
+The semantic tests call the real Jev backend, so they are skipped unless
+TYPESAFE_API_KEY is set. The deterministic-check test needs no key.
 """
 
 import os
 
 import pytest
 
-os.environ.setdefault("JEV_BACKEND", "mock")
+os.environ.setdefault("JEV_BACKEND", "jev")
 
 from sentinel.adapter import process_batch  # noqa: E402
 from sentinel.circuit_breaker import evaluate_gate  # noqa: E402
 from sentinel.schemas import DEMO_QUESTIONS, CircuitState  # noqa: E402
 from sentinel.warehouse import Warehouse  # noqa: E402
+
+requires_jev = pytest.mark.skipif(
+    not os.getenv("TYPESAFE_API_KEY"),
+    reason="Jev backend requires TYPESAFE_API_KEY",
+)
 
 
 @pytest.fixture()
@@ -30,6 +36,7 @@ def test_deterministic_checks_all_pass(wh):
         assert rep.total_rows == 13
 
 
+@requires_jev
 @pytest.mark.asyncio
 async def test_semantic_drift_is_detected(wh):
     v1 = await process_batch(wh.rows_to_evaluate("v1"), DEMO_QUESTIONS)
@@ -43,6 +50,7 @@ async def test_semantic_drift_is_detected(wh):
     assert mean_v1 - mean_v2 > 0.15
 
 
+@requires_jev
 @pytest.mark.asyncio
 async def test_circuit_breaker_trips_on_v2(wh):
     v1 = await process_batch(wh.rows_to_evaluate("v1"), DEMO_QUESTIONS)
@@ -54,6 +62,7 @@ async def test_circuit_breaker_trips_on_v2(wh):
     assert len(review) > 0
 
 
+@requires_jev
 @pytest.mark.asyncio
 async def test_idempotent_evaluation(wh):
     rows = wh.rows_to_evaluate("v2")

@@ -15,8 +15,7 @@ gcloud run deploy semantic-drift-sentinel \
   --no-allow-unauthenticated
 ```
 
-(Build uses `deploy/Dockerfile`. Swap `JEV_BACKEND=claude` +
-`ANTHROPIC_API_KEY` to run the Claude-backed judge instead.)
+(Build uses `deploy/Dockerfile`.)
 
 ## 2. BigQuery — checks + closed loop
 
@@ -37,5 +36,5 @@ Replace the local DuckDB reads/writes in `src/sentinel/warehouse.py` with a
 
 ## Secrets
 
-Keep `TYPESAFE_API_KEY` / `ANTHROPIC_API_KEY` in Secret Manager and mount them
-with `--set-secrets`. Never bake keys into the image.
+Keep `TYPESAFE_API_KEY` in Secret Manager and mount it with `--set-secrets`.
+Never bake keys into the image.

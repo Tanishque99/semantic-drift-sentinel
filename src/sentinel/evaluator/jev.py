@@ -37,8 +37,12 @@ class JevEvaluator:
             elif q.type == QuestionType.CHOICE:
                 out[q.key] = Choice(instructions=q.instructions, criteria=q.criteria)
             elif q.type == QuestionType.SCORE:
-                # Jev Score uses an ordered rubric; 1..5 here.
-                out[q.key] = Score(instructions=q.instructions, levels=5)
+                # Jev Score takes an ordered rubric as `criteria`: level
+                # descriptions from the low end to the high end (0-based).
+                levels = q.levels or [
+                    "Very poor", "Poor", "Fair", "Good", "Excellent"
+                ]
+                out[q.key] = Score(instructions=q.instructions, criteria=list(levels))
         return out
 
     async def evaluate(
@@ -64,8 +68,12 @@ class JevEvaluator:
                                         choice=a.choice,
                                         confidence=float(getattr(a, "confidence", 1.0)))
             elif q.type == QuestionType.SCORE:
+                # Jev returns the score as a 0-based probability-weighted mean
+                # over the rubric indices. The rest of the pipeline (the demo
+                # table, answer_to_unit) uses a 1..N convention, so shift by 1
+                # to match.
                 answers[q.key] = Answer(key=q.key, type=q.type,
-                                        score=float(a.score),
+                                        score=float(a.score) + 1.0,
                                         confidence=float(getattr(a, "confidence", 1.0)))
 
         tokens = float(getattr(getattr(resp, "usage", None), "input_tokens", 0) or 0)

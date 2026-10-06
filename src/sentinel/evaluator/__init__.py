@@ -1,4 +1,4 @@
-"""Evaluator factory: one env var picks the backend, same typed contract."""
+"""Evaluator factory for the Jev semantic backend."""
 
 from __future__ import annotations
 
@@ -13,12 +13,6 @@ def get_evaluator(backend: str | None = None) -> Evaluator:
     if name == "jev":
         from .jev import JevEvaluator
         return JevEvaluator()
-    if name == "claude":
-        from .claude import ClaudeEvaluator
-        return ClaudeEvaluator()
-    if name == "mock":
-        from .mock import MockEvaluator
-        return MockEvaluator()
     raise ValueError(
-        f"unknown backend {name!r}; set JEV_BACKEND to one of: jev, claude, mock"
+        f"unknown backend {name!r}; the only supported backend is: jev"
     )

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `project.dataset.quality_metrics` (
   deployment_version  STRING,
   quality             FLOAT64,     -- 0..1 aggregate semantic quality
   answers_json        JSON,        -- the typed Jev answers for this row
-  backend             STRING,      -- jev | claude | mock
+  backend             STRING,      -- jev
   latency_ms          FLOAT64,
   cost_usd            FLOAT64,
   scored_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
