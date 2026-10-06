@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Semantic Drift Sentinel — semantic data quality as a continuous infra metric</title>
+<title>Semantic Drift Sentinel: semantic data quality as a continuous infra metric</title>
 <meta name="description" content="A layered pattern that catches silent meaning drift in data pipelines that passes every deterministic check. BigQuery to Cloud Run to Jev typed eval to a data circuit breaker to a closed loop." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -218,10 +218,10 @@
         <p style="color:var(--muted);font-size:14px;margin:6px 0 0">"I was charged twice for October."</p>
         <p style="font-size:13.5px;margin:6px 0 0"><span class="c-g mono">→</span> "Confirmed the duplicate charge and issued a refund; posts in 3-5 days."</p>
         <ul class="checklist">
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Freshness — pass</li>
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Completeness — pass</li>
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Schema / enum — pass</li>
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Uniqueness — pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Freshness: pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Completeness: pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Schema / enum: pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Uniqueness: pass</li>
         </ul>
       </div>
       <div class="card reveal">
@@ -231,10 +231,10 @@
         <p style="color:var(--muted);font-size:14px;margin:6px 0 0">"I was charged twice for October."</p>
         <p style="font-size:13.5px;margin:6px 0 0"><span class="c-r mono">→</span> "Thanks for reaching out. You can view invoices in Account Settings."</p>
         <ul class="checklist">
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Freshness — pass</li>
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Completeness — pass</li>
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Schema / enum — pass</li>
-          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Uniqueness — pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Freshness: pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Completeness: pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Schema / enum: pass</li>
+          <li><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#36e2a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Uniqueness: pass</li>
           <li style="color:var(--red)"><svg class="chk" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#ff5c6c" stroke-width="2.4" stroke-linecap="round"/></svg> <b>Still doesn't answer the question</b></li>
         </ul>
       </div>
@@ -247,14 +247,14 @@
   <div class="wrap">
     <div class="kicker reveal">The pattern</div>
     <h2 class="reveal">Five layers, top to bottom. <span class="grad-text">Click any layer.</span></h2>
-    <p class="lead reveal">The whole point: at scale the model call is the easy part. The hard part is the engineering boundary around it — concurrency throttling, retries, idempotency, and absolute cost control. Keep the expensive semantic check for only the rows that need it.</p>
+    <p class="lead reveal">The whole point: at scale the model call is the easy part. The hard part is the engineering boundary around it, concurrency throttling, retries, idempotency, and absolute cost control. Keep the expensive semantic check for only the rows that need it.</p>
 
     <div class="flow">
       <div class="node reveal" data-accent="blue">
         <div class="num">1</div>
         <div>
-          <div class="t"><h3>BigQuery — Ingestion &amp; filtering</h3><span class="pill">deterministic SQL</span></div>
-          <p>Run the cheap, deterministic checks first (freshness, completeness, schema, uniqueness). Route only high-risk or sampled rows out of the warehouse — never pay to semantically score everything.</p>
+          <div class="t"><h3>BigQuery: Ingestion &amp; filtering</h3><span class="pill">deterministic SQL</span></div>
+          <p>Run the cheap, deterministic checks first (freshness, completeness, schema, uniqueness). Route only high-risk or sampled rows out of the warehouse, never pay to semantically score everything.</p>
           <div class="detail">
             <div class="row"><b>In the repo</b><span>warehouse.py (DuckDB stand-in) + bigquery/01_deterministic_checks.sql</span></div>
             <div class="row"><b>Output</b><span>filtered / sampled high-risk rows</span></div>
@@ -266,10 +266,10 @@
       <div class="node reveal" data-accent="blue">
         <div class="num">2</div>
         <div>
-          <div class="t"><h3>Cloud Run — Async compute adapter</h3><span class="pill">batching · retries · throttle</span></div>
-          <p>An asynchronous Python service manages batching, exponential-backoff retries, idempotency, and a strict concurrency cap — the real engineering so a spike never melts the budget or trips rate limits.</p>
+          <div class="t"><h3>Cloud Run: Async compute adapter</h3><span class="pill">batching · retries · throttle</span></div>
+          <p>An asynchronous Python service manages batching, exponential-backoff retries, idempotency, and a strict concurrency cap, the real engineering so a spike never melts the budget or trips rate limits.</p>
           <div class="detail">
-            <div class="row"><b>In the repo</b><span>adapter.py — runs in-process for the demo, or as FastAPI (make serve)</span></div>
+            <div class="row"><b>In the repo</b><span>adapter.py, runs in-process for the demo, or as FastAPI (make serve)</span></div>
             <div class="row"><b>Controls</b><span>MAX_CONCURRENCY · BATCH_SIZE · MAX_RETRIES</span></div>
           </div>
         </div>
@@ -279,8 +279,8 @@
       <div class="node reveal">
         <div class="num">3</div>
         <div>
-          <div class="t"><h3>Jev — TypeSafe semantic evaluation</h3><span class="pill">state + questions → typed answers</span></div>
-          <p>Batched rows go to the evaluation layer for model inference and <b>strict structural JSON scoring</b>. Every answer validates against a typed contract (Noul / Choice / Score with calibrated probabilities) — no free text to parse.</p>
+          <div class="t"><h3>Jev: TypeSafe semantic evaluation</h3><span class="pill">state + questions → typed answers</span></div>
+          <p>Batched rows go to the evaluation layer for model inference and <b>strict structural JSON scoring</b>. Every answer validates against a typed contract (Noul / Choice / Score with calibrated probabilities), no free text to parse.</p>
           <div class="detail">
             <div class="row"><b>In the repo</b><span>evaluator/ (jev) + schemas.py</span></div>
             <div class="row"><b>Question</b><span>"Does the resolution_summary actually address the ticket?"</span></div>
@@ -293,7 +293,7 @@
         <div class="num">4</div>
         <div>
           <div class="t"><h3>Data circuit breaker</h3><span class="pill">semantic thresholds</span></div>
-          <p>Apply thresholds at the gate. If semantic quality drops too far versus the baseline — or below an absolute floor — instantly trip: fire a downstream alert and route anomalies to a human review queue.</p>
+          <p>Apply thresholds at the gate. If semantic quality drops too far versus the baseline, or below an absolute floor, instantly trip: fire a downstream alert and route anomalies to a human review queue.</p>
           <div class="detail">
             <div class="row"><b>In the repo</b><span>circuit_breaker.py</span></div>
             <div class="row"><b>Trips on</b><span>drift &gt; 0.15 &nbsp;OR&nbsp; mean quality &lt; 0.70</span></div>
@@ -310,7 +310,7 @@
         <div class="num">5</div>
         <div>
           <div class="t"><h3>Closed loop</h3><span class="pill">versioned metrics</span></div>
-          <p>Continuously write versioned quality metrics back into BigQuery to trace and track long-term semantic drift by deployment — turning a one-off check into a monitorable time series.</p>
+          <p>Continuously write versioned quality metrics back into BigQuery to trace and track long-term semantic drift by deployment, turning a one-off check into a monitorable time series.</p>
           <div class="detail">
             <div class="row"><b>In the repo</b><span>warehouse.py + bigquery/02_quality_metrics_schema.sql</span></div>
             <div class="row"><b>Enables</b><span>drift-by-version trend, cost per loop, disagreement rate</span></div>
@@ -333,11 +333,11 @@
         <h3 style="margin-top:0">Mean semantic quality</h3>
         <div class="bars">
           <div class="bar-row">
-            <div class="lab"><span>v1 — baseline</span><b class="c-g" data-count="0.966">0.000</b></div>
+            <div class="lab"><span>v1 · baseline</span><b class="c-g" data-count="0.966">0.000</b></div>
             <div class="track"><div class="fill v1" data-w="96.6"></div></div>
           </div>
           <div class="bar-row">
-            <div class="lab"><span>v2 — after deploy</span><b class="c-r" data-count="0.374">0.000</b></div>
+            <div class="lab"><span>v2 · after deploy</span><b class="c-r" data-count="0.374">0.000</b></div>
             <div class="track"><div class="fill v2" data-w="37.4"></div></div>
           </div>
         </div>
@@ -347,11 +347,11 @@
         </div>
       </div>
       <div class="verdict reveal">
-        <span class="breaker">🚨 CIRCUIT BREAKER — OPEN</span>
+        <span class="breaker">🚨 CIRCUIT BREAKER · OPEN</span>
         <div class="big c-r">Tripped.</div>
         <p style="color:var(--muted);margin:0 0 4px;font-size:14.5px">Reason: semantic drift <b>0.59 &gt; 0.15</b>; mean quality <b>0.37 &lt; 0.70</b> floor.</p>
         <p style="color:var(--muted);font-size:14.5px;margin-top:14px">The core question, answered automatically on every deployment:</p>
-        <p style="font-weight:700;font-size:16px;margin:4px 0 0">Did this deployment preserve the meaning of our data — and can we prove it at scale?</p>
+        <p style="font-weight:700;font-size:16px;margin:4px 0 0">Did this deployment preserve the meaning of our data, and can we prove it at scale?</p>
       </div>
     </div>
 
@@ -470,10 +470,10 @@
     <div class="kicker reveal">Why this beats a raw model score</div>
     <h2 class="reveal">Operational metrics you can actually monitor.</h2>
     <div class="metrics">
-      <div class="metric reveal"><div class="ic">📉</div><h4>Semantic drift by version</h4><p>The headline signal — quality per deployment, over time.</p></div>
+      <div class="metric reveal"><div class="ic">📉</div><h4>Semantic drift by version</h4><p>The headline signal, quality per deployment, over time.</p></div>
       <div class="metric reveal"><div class="ic">⚖️</div><h4>Human vs evaluator disagreement</h4><p>Is the judge itself trustworthy? Measure it.</p></div>
       <div class="metric reveal"><div class="ic">⏱️</div><h4>False positives vs latency</h4><p>The real cost of catching drift, p50 / p95.</p></div>
-      <div class="metric reveal"><div class="ic">💲</div><h4>Cost per evaluation loop</h4><p>Proven, not assumed — tracked per row and per run.</p></div>
+      <div class="metric reveal"><div class="ic">💲</div><h4>Cost per evaluation loop</h4><p>Proven, not assumed, tracked per row and per run.</p></div>
     </div>
   </div>
 </section>

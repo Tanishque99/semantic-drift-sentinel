@@ -14,7 +14,7 @@ you monitor in production, with a circuit breaker at the gate.
 > Built for a 5-minute live demo at **AI Tinkerers Phoenix**. `git clone` →
 > set `TYPESAFE_API_KEY` → `make demo` → live output in under a minute.
 
-**📊 Visual explainer:** [**tanishque99.github.io/semantic-drift-sentinel**](https://tanishque99.github.io/semantic-drift-sentinel/) — an interactive walkthrough of the whole pattern (also in [`index.html`](index.html), open it locally with no server).
+**📊 Visual explainer:** [**tanishque99.github.io/semantic-drift-sentinel**](https://tanishque99.github.io/semantic-drift-sentinel/), an interactive walkthrough of the whole pattern (also in [`index.html`](index.html), open it locally with no server).
 
 ```bash
 git clone https://github.com/Tanishque99/semantic-drift-sentinel
@@ -41,7 +41,7 @@ Five layers, each a file you can open live:
 | 5 | **Closed loop** | Write versioned quality metrics back to BigQuery to trace drift over time | [`warehouse.py`](src/sentinel/warehouse.py) + [`bigquery/02_quality_metrics_schema.sql`](bigquery/02_quality_metrics_schema.sql) |
 
 The real thesis: **at scale the LLM/Jev call is the easy part.** The hard part
-is the engineering boundary around it — concurrency throttling, error handling,
+is the engineering boundary around it, concurrency throttling, error handling,
 and absolute cost control. Once that boundary is set, operational metrics become
 far more useful than a raw model score.
 
@@ -128,10 +128,10 @@ evaluator can be swapped out without the rest of the pipeline moving.
 
 The numbers worth monitoring (all computed in [`metrics.py`](src/sentinel/metrics.py)):
 
-- **Semantic drift by deployment version** — the headline signal
-- **Human vs evaluator disagreement rate** — is the judge trustworthy?
-- **False-positive rate vs latency overhead** — the cost of catching drift
-- **Total cost per evaluation loop** — proven, not assumed
+- **Semantic drift by deployment version**: the headline signal
+- **Human vs evaluator disagreement rate**: is the judge trustworthy?
+- **False-positive rate vs latency overhead**: the cost of catching drift
+- **Total cost per evaluation loop**: proven, not assumed
 
 ---
 
@@ -160,7 +160,7 @@ for BigQuery and maps 1:1 onto the local DuckDB implementation.
 
 ```
 src/sentinel/
-  schemas.py         typed contracts (Noul/Choice/Score) — the TypeSafe boundary
+  schemas.py         typed contracts (Noul/Choice/Score), the TypeSafe boundary
   config.py          env-driven settings (reads TYPESAFE_API_KEY)
   sampledata.py      deterministic v1/v2 dataset with planted semantic drift
   warehouse.py       layer 1 + 5: deterministic checks, routing, closed loop
@@ -178,7 +178,7 @@ tests/               smoke tests (semantic tests need TYPESAFE_API_KEY)
 
 ## Credits
 
-- **Jev** by [TypeSafe AI](https://typesafe.ai) — the "System One" typed
+- **Jev** by [TypeSafe AI](https://typesafe.ai), the "System One" typed
   evaluation model this pattern is built around ([docs](https://docs.typesafe.ai)).
 - Built for [AI Tinkerers Phoenix](https://phoenix.aitinkerers.org/).
 

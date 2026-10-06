@@ -5,5 +5,5 @@ python-dotenv>=1.0
 rich>=13.7
 typesafe-sdk>=0.7
 
-# Optional extras — install as needed:
+# Optional extras, install as needed:
 #   pip install fastapi uvicorn  # make serve  (run the Cloud Run adapter locally)

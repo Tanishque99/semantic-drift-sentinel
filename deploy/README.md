@@ -4,7 +4,7 @@ The demo runs entirely locally (DuckDB stands in for BigQuery, the adapter runs
 in-process). This is the path to the production topology in the architecture
 diagram. Nothing in `src/sentinel/` changes.
 
-## 1. Cloud Run — the async adapter
+## 1. Cloud Run: the async adapter
 
 ```bash
 gcloud run deploy semantic-drift-sentinel \
@@ -17,13 +17,13 @@ gcloud run deploy semantic-drift-sentinel \
 
 (Build uses `deploy/Dockerfile`.)
 
-## 2. BigQuery — checks + closed loop
+## 2. BigQuery: checks + closed loop
 
 Replace the local DuckDB reads/writes in `src/sentinel/warehouse.py` with a
 `google-cloud-bigquery` client. The SQL is already written for BigQuery:
 
-- `bigquery/01_deterministic_checks.sql` — layer 1 checks + routing query
-- `bigquery/02_quality_metrics_schema.sql` — layer 5 metrics table + drift views
+- `bigquery/01_deterministic_checks.sql`: layer 1 checks + routing query
+- `bigquery/02_quality_metrics_schema.sql`: layer 5 metrics table + drift views
 
 ## 3. Wiring
 
