@@ -14,6 +14,8 @@ you monitor in production, with a circuit breaker at the gate.
 > Built for a 5-minute live demo at **AI Tinkerers Phoenix**. `git clone` →
 > `make demo` → live output in under a minute, zero API keys required.
 
+**📊 Visual explainer:** [**tanishque99.github.io/semantic-drift-sentinel**](https://tanishque99.github.io/semantic-drift-sentinel/) — an interactive walkthrough of the whole pattern (also in [`index.html`](index.html), open it locally with no server).
+
 ```bash
 git clone https://github.com/Tanishque99/semantic-drift-sentinel
 cd semantic-drift-sentinel
