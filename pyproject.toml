@@ -1,0 +1,33 @@
+[project]
+name = "semantic-drift-sentinel"
+version = "0.1.0"
+description = "Semantic data quality as a continuous infrastructure metric: BigQuery → Cloud Run → Jev typed eval → circuit breaker → closed loop."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "duckdb>=1.1",
+    "pydantic>=2.7",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+claude = ["anthropic>=0.40"]
+jev = ["typesafe-sdk>=0.1"]
+serve = ["fastapi>=0.110", "uvicorn>=0.29"]
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[project.scripts]
+sentinel = "sentinel.demo:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src"]

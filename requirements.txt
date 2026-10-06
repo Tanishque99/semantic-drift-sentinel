@@ -1,0 +1,9 @@
+# Core (demo runs with just these, using the zero-key mock backend)
+duckdb>=1.1
+pydantic>=2.7
+rich>=13.7
+
+# Optional backends / extras — install as needed:
+#   pip install anthropic        # JEV_BACKEND=claude (default when ANTHROPIC_API_KEY set)
+#   pip install typesafe-sdk     # JEV_BACKEND=jev  (the real TypeSafe AI product)
+#   pip install fastapi uvicorn  # make serve  (run the Cloud Run adapter locally)
