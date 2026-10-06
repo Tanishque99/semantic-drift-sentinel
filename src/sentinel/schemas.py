@@ -26,11 +26,17 @@ class Question(BaseModel):
     key: str
     type: QuestionType
     instructions: str
+    # Short column header for display; falls back to `key` when empty.
+    label: str = ""
     # Only used for CHOICE questions: option_key -> what it means.
     criteria: dict[str, str] = Field(default_factory=dict)
     # Only used for SCORE questions: an ordered rubric, low end -> high end.
     # Jev requires these level descriptions.
     levels: list[str] = Field(default_factory=list)
+
+    @property
+    def header(self) -> str:
+        return self.label or self.key
 
 
 class Answer(BaseModel):
@@ -97,6 +103,7 @@ DEMO_QUESTIONS: list[Question] = [
     Question(
         key="summary_addresses_ticket",
         type=QuestionType.NOUL,
+        label="addresses_ticket",
         instructions=(
             "Does the resolution_summary actually address the specific problem "
             "the customer described in ticket_text? Answer about substance, not tone."
@@ -105,6 +112,7 @@ DEMO_QUESTIONS: list[Question] = [
     Question(
         key="category_correct",
         type=QuestionType.NOUL,
+        label="category_ok",
         instructions=(
             "Is the assigned `category` the correct category for the problem "
             "described in ticket_text?"
@@ -113,6 +121,7 @@ DEMO_QUESTIONS: list[Question] = [
     Question(
         key="resolution_quality",
         type=QuestionType.SCORE,
+        label="resolution(1-5)",
         instructions=(
             "Rate how well the resolution_summary resolves the customer's issue "
             "on a 1-5 scale, where 1 is irrelevant/generic and 5 is a complete, "

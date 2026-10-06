@@ -1,12 +1,21 @@
-.PHONY: install demo jev serve test clean
+.PHONY: install demo demo-tickets demo-goods export jev serve test clean
 
 PY ?= python3
 
 install:   ## install deps (includes the Jev SDK)
 	$(PY) -m pip install -e .
 
-demo:      ## run the full end-to-end loop (needs TYPESAFE_API_KEY)
+demo:      ## run the full end-to-end loop on the default dataset (needs TYPESAFE_API_KEY)
 	$(PY) -m sentinel
+
+demo-tickets: ## run the support-ticket dataset (summary drift)
+	DATASET=tickets $(PY) -m sentinel
+
+demo-goods:   ## run the consumer goods data drift dataset
+	DATASET=goods $(PY) -m sentinel
+
+export:    ## export every sample dataset to exports/*.csv and *.json
+	$(PY) -m sentinel.export
 
 jev:       ## run the Jev backend explicitly (needs TYPESAFE_API_KEY)
 	JEV_BACKEND=jev $(PY) -m sentinel

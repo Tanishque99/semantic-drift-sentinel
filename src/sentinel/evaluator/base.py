@@ -42,11 +42,17 @@ def answer_to_unit(answer: Answer) -> float:
     return 0.0
 
 
-def aggregate_quality(answers: dict[str, Answer]) -> float:
-    """Weighted 0..1 semantic quality score for a single row."""
+def aggregate_quality(
+    answers: dict[str, Answer], weights: dict[str, float] | None = None
+) -> float:
+    """Weighted 0..1 semantic quality score for a single row.
+
+    `weights` defaults to the support-ticket weights; datasets pass their own.
+    """
+    weights = weights if weights is not None else QUALITY_WEIGHTS
     total_w = 0.0
     acc = 0.0
-    for key, weight in QUALITY_WEIGHTS.items():
+    for key, weight in weights.items():
         if key in answers:
             acc += weight * answer_to_unit(answers[key])
             total_w += weight

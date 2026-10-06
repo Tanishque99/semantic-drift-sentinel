@@ -31,6 +31,9 @@ class Settings:
     # Which evaluator backend powers the semantic layer.
     backend: str = _auto_backend()
 
+    # Which sample dataset to run: tickets (default) | goods.
+    dataset: str = os.getenv("DATASET", "tickets")
+
     # Model for the Jev backend.
     jev_model: str = os.getenv("JEV_MODEL", "jev-1.13.0")
 

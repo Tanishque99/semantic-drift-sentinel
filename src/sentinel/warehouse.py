@@ -8,6 +8,10 @@ Responsibilities (layers 1 and 5 in the architecture):
   5. Write versioned semantic quality metrics back, so drift can be traced over
      time (the closed loop).
 
+The warehouse is generic over a `DatasetSpec`: the table shape, the enum column
+to validate, and the completeness column all come from the spec, so the same
+code serves the support-ticket and consumer-goods datasets unchanged.
+
 The SQL here is intentionally plain so it maps 1:1 onto the BigQuery DDL in
 `bigquery/`. Swap `duckdb.connect(path)` for a BigQuery client and the shape of
 the pipeline is unchanged.
@@ -22,7 +26,7 @@ from pathlib import Path
 import duckdb
 
 from .config import settings
-from .sampledata import VALID_CATEGORIES, all_rows
+from .datasets import DatasetSpec, get_dataset
 from .schemas import RowEvaluation
 
 
@@ -37,21 +41,27 @@ class DeterministicReport:
 
 
 class Warehouse:
-    def __init__(self, path: str | None = None):
+    def __init__(self, spec: DatasetSpec | None = None, path: str | None = None):
+        self.spec = spec or get_dataset(settings.dataset)
+        self.table = self.spec.table
+        # Full column order used for DDL and inserts.
+        self.columns = ("row_id", "deployment_version", *self.spec.text_columns,
+                        "created_at")
         self.path = path or settings.warehouse_path
         Path(self.path).parent.mkdir(parents=True, exist_ok=True)
         self.con = duckdb.connect(self.path)
         self._init_schema()
 
     def _init_schema(self) -> None:
+        text_cols = ",\n                ".join(
+            f"{c:<18} VARCHAR" for c in self.spec.text_columns
+        )
         self.con.execute(
-            """
-            CREATE TABLE IF NOT EXISTS tickets (
+            f"""
+            CREATE TABLE IF NOT EXISTS {self.table} (
                 row_id              VARCHAR,
                 deployment_version  VARCHAR,
-                ticket_text         VARCHAR,
-                category            VARCHAR,
-                resolution_summary  VARCHAR,
+                {text_cols},
                 created_at          DATE
             );
             CREATE TABLE IF NOT EXISTS quality_metrics (
@@ -71,45 +81,38 @@ class Warehouse:
 
     def seed(self) -> None:
         """Load the deterministic sample dataset (idempotent)."""
-        self.con.execute("DELETE FROM tickets;")
-        rows = all_rows()
+        self.con.execute(f"DELETE FROM {self.table};")
+        rows = self.spec.rows()
+        placeholders = ", ".join(["?"] * len(self.columns))
         self.con.executemany(
-            "INSERT INTO tickets VALUES (?, ?, ?, ?, ?, ?)",
-            [
-                (
-                    r["row_id"],
-                    r["deployment_version"],
-                    r["ticket_text"],
-                    r["category"],
-                    r["resolution_summary"],
-                    r["created_at"],
-                )
-                for r in rows
-            ],
+            f"INSERT INTO {self.table} VALUES ({placeholders})",
+            [tuple(r[c] for c in self.columns) for r in rows],
         )
 
     def deterministic_checks(self, version: str) -> DeterministicReport:
         """Run the standard BigQuery-style checks. These all PASS on the demo
         data -- that is the whole point."""
         q = lambda sql: self.con.execute(sql, [version]).fetchone()[0]  # noqa: E731
-        total = q("SELECT count(*) FROM tickets WHERE deployment_version = ?")
+        comp = self.spec.completeness_column
+        enum_col = self.spec.enum_column
+        valid = self.spec.valid_values
+        total = q(f"SELECT count(*) FROM {self.table} WHERE deployment_version = ?")
         failures = {
-            "completeness_null_summary": q(
-                "SELECT count(*) FROM tickets WHERE deployment_version = ? "
-                "AND (resolution_summary IS NULL OR length(trim(resolution_summary)) = 0)"
+            "completeness": q(
+                f"SELECT count(*) FROM {self.table} WHERE deployment_version = ? "
+                f"AND ({comp} IS NULL OR length(trim({comp})) = 0)"
             ),
-            "schema_invalid_category": self.con.execute(
-                "SELECT count(*) FROM tickets WHERE deployment_version = ? "
-                "AND category NOT IN "
-                f"({','.join(['?'] * len(VALID_CATEGORIES))})",
-                [version, *VALID_CATEGORIES],
+            "schema": self.con.execute(
+                f"SELECT count(*) FROM {self.table} WHERE deployment_version = ? "
+                f"AND {enum_col} NOT IN ({','.join(['?'] * len(valid))})",
+                [version, *valid],
             ).fetchone()[0],
-            "uniqueness_duplicate_id": q(
-                "SELECT count(*) FROM (SELECT row_id FROM tickets "
+            "uniqueness": q(
+                f"SELECT count(*) FROM (SELECT row_id FROM {self.table} "
                 "WHERE deployment_version = ? GROUP BY row_id HAVING count(*) > 1)"
             ),
-            "freshness_stale_rows": q(
-                "SELECT count(*) FROM tickets WHERE deployment_version = ? "
+            "freshness": q(
+                f"SELECT count(*) FROM {self.table} WHERE deployment_version = ? "
                 "AND created_at < current_date - INTERVAL 30 DAY"
             ),
         }
@@ -119,14 +122,12 @@ class Warehouse:
         """Layer 1 routing: select the high-risk / sampled rows that survived
         deterministic checks and should get semantic evaluation."""
         rate = max(0.0, min(1.0, settings.high_risk_sample_rate))
+        cols = ["row_id", "deployment_version", *self.spec.text_columns]
         rows = self.con.execute(
-            "SELECT row_id, deployment_version, ticket_text, category, "
-            "resolution_summary FROM tickets WHERE deployment_version = ? "
-            "ORDER BY row_id",
+            f"SELECT {', '.join(cols)} FROM {self.table} "
+            "WHERE deployment_version = ? ORDER BY row_id",
             [version],
         ).fetchall()
-        cols = ["row_id", "deployment_version", "ticket_text", "category",
-                "resolution_summary"]
         selected = rows if rate >= 1.0 else rows[: max(1, int(len(rows) * rate))]
         return [dict(zip(cols, r)) for r in selected]
 

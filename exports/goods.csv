@@ -1,0 +1,25 @@
+row_id,deployment_version,product_name,category,description,created_at
+SKU-000,v1,iPhone 15 Pro,Mobile,"Apple flagship smartphone with the A17 Pro chip, 6.1-inch display, and a triple-camera system.",2026-10-05
+SKU-001,v1,Samsung Galaxy S24 Ultra,Mobile,"Android smartphone with a built-in S Pen, 200MP camera, and a 6.8-inch AMOLED display.",2026-10-05
+SKU-002,v1,MacBook Air M3,Computers,Thin and light laptop with the Apple M3 chip and a 13-inch Liquid Retina display.,2026-10-05
+SKU-003,v1,Dell XPS 15 Laptop,Computers,Windows creator laptop with Intel Core Ultra and a 15-inch OLED touchscreen.,2026-10-05
+SKU-004,v1,Sony WH-1000XM5 Headphones,Audio,Wireless over-ear noise-cancelling headphones with up to 30 hours of battery life.,2026-10-05
+SKU-005,v1,Bose SoundLink Flex Speaker,Audio,"Portable Bluetooth speaker with deep bass and a waterproof, rugged design.",2026-10-05
+SKU-006,v1,Apple Watch Series 9,Wearables,"Smartwatch with heart-rate and blood-oxygen sensors, an always-on Retina display, and GPS.",2026-10-05
+SKU-007,v1,Fitbit Charge 6 Band,Wearables,"Fitness band that tracks heart rate, steps, and sleep with a seven-day battery.",2026-10-05
+SKU-008,v1,LG C3 65-inch OLED TV,Television,"4K OLED smart TV with webOS, Dolby Vision, and a 120Hz panel for gaming.",2026-10-05
+SKU-009,v1,Dyson V15 Detect Vacuum,Home Appliances,Cordless stick vacuum with laser dust detection and whole-machine HEPA filtration.,2026-10-05
+SKU-010,v1,Instant Pot Duo 7-in-1,Home Appliances,"Electric pressure cooker that pressure-cooks, slow-cooks, steams, and sautes in one pot.",2026-10-05
+SKU-011,v1,Anker 65W USB-C Charger,Accessories,Compact 65W GaN fast charger with two USB-C ports for laptops and phones.,2026-10-05
+SKU-000,v2,iPhone 15 Pro,Home Appliances,"Apple flagship smartphone with the A17 Pro chip, 6.1-inch display, and a triple-camera system.",2026-10-05
+SKU-001,v2,Samsung Galaxy S24 Ultra,Television,"Android smartphone with a built-in S Pen, 200MP camera, and a 6.8-inch AMOLED display.",2026-10-05
+SKU-002,v2,MacBook Air M3,Audio,Thin and light laptop with the Apple M3 chip and a 13-inch Liquid Retina display.,2026-10-05
+SKU-003,v2,Dell XPS 15 Laptop,Accessories,Windows creator laptop with Intel Core Ultra and a 15-inch OLED touchscreen.,2026-10-05
+SKU-004,v2,Sony WH-1000XM5 Headphones,Mobile,Wireless over-ear noise-cancelling headphones with up to 30 hours of battery life.,2026-10-05
+SKU-005,v2,Bose SoundLink Flex Speaker,Home Appliances,"Portable Bluetooth speaker with deep bass and a waterproof, rugged design.",2026-10-05
+SKU-006,v2,Apple Watch Series 9,Home Appliances,"Smartwatch with heart-rate and blood-oxygen sensors, an always-on Retina display, and GPS.",2026-10-05
+SKU-007,v2,Fitbit Charge 6 Band,Mobile,"Fitness band that tracks heart rate, steps, and sleep with a seven-day battery.",2026-10-05
+SKU-008,v2,LG C3 65-inch OLED TV,Mobile,"4K OLED smart TV with webOS, Dolby Vision, and a 120Hz panel for gaming.",2026-10-05
+SKU-009,v2,Dyson V15 Detect Vacuum,Computers,Cordless stick vacuum with laser dust detection and whole-machine HEPA filtration.,2026-10-05
+SKU-010,v2,Instant Pot Duo 7-in-1,Audio,"Electric pressure cooker that pressure-cooks, slow-cooks, steams, and sautes in one pot.",2026-10-05
+SKU-011,v2,Anker 65W USB-C Charger,Wearables,Compact 65W GaN fast charger with two USB-C ports for laptops and phones.,2026-10-05

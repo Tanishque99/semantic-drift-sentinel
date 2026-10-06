@@ -1,0 +1,210 @@
+[
+  {
+    "row_id": "TCK-000",
+    "deployment_version": "v1",
+    "ticket_text": "I was charged twice for my October subscription and need one refunded.",
+    "category": "billing",
+    "resolution_summary": "Confirmed the duplicate October charge and issued a refund for the extra subscription payment; it will post in 3-5 business days.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-001",
+    "deployment_version": "v1",
+    "ticket_text": "The export button throws a 500 error every time I click it.",
+    "category": "technical",
+    "resolution_summary": "Reproduced the 500 on export, traced it to a timeout in the report service, deployed a fix, and verified export now completes.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-002",
+    "deployment_version": "v1",
+    "ticket_text": "I can't log in, it says my account is locked after a password reset.",
+    "category": "account",
+    "resolution_summary": "Unlocked the account that was flagged by the reset flow and sent a fresh reset link; confirmed the customer logged in successfully.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-003",
+    "deployment_version": "v1",
+    "ticket_text": "My invoice shows the wrong company name and I need it corrected.",
+    "category": "billing",
+    "resolution_summary": "Updated the billing profile company name and reissued the corrected invoice PDF for the current period.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-004",
+    "deployment_version": "v1",
+    "ticket_text": "The mobile app crashes on startup after the latest update.",
+    "category": "technical",
+    "resolution_summary": "Identified a null-state crash on cold start in the latest build, shipped a hotfix, and confirmed the app launches cleanly.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-005",
+    "deployment_version": "v1",
+    "ticket_text": "I was promised a 20% discount but it wasn't applied at checkout.",
+    "category": "billing",
+    "resolution_summary": "Found the missing promo on the order, applied the 20% discount retroactively, and refunded the difference to the card on file.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-006",
+    "deployment_version": "v1",
+    "ticket_text": "API returns 401 even with a freshly generated key.",
+    "category": "technical",
+    "resolution_summary": "Found the new key was scoped to the wrong project; regenerated it with the correct scope and confirmed authenticated calls succeed.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-007",
+    "deployment_version": "v1",
+    "ticket_text": "Please delete my account and all associated data per my request.",
+    "category": "account",
+    "resolution_summary": "Verified identity, queued the account and associated data for deletion within 30 days, and sent written confirmation.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-008",
+    "deployment_version": "v1",
+    "ticket_text": "You charged my old card instead of the new one I added.",
+    "category": "billing",
+    "resolution_summary": "Set the newly added card as default, voided the charge on the old card, and reprocessed payment on the correct card.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-009",
+    "deployment_version": "v1",
+    "ticket_text": "Search results are completely empty even for exact title matches.",
+    "category": "technical",
+    "resolution_summary": "Found the search index had not rebuilt after migration; triggered a reindex and confirmed exact-title queries return results.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-010",
+    "deployment_version": "v1",
+    "ticket_text": "I need to transfer ownership of the workspace to a colleague.",
+    "category": "account",
+    "resolution_summary": "Transferred workspace ownership to the specified colleague after admin confirmation and verified their new owner permissions.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-011",
+    "deployment_version": "v1",
+    "ticket_text": "The dashboard shows last week's numbers, not today's.",
+    "category": "technical",
+    "resolution_summary": "Traced stale dashboard data to a broken nightly ETL job, re-ran it, and confirmed the dashboard now reflects today's numbers.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-012",
+    "deployment_version": "v1",
+    "ticket_text": "Cancel my plan; I do not want to be billed next cycle.",
+    "category": "billing",
+    "resolution_summary": "Cancelled the plan effective end of the current cycle and confirmed no further charges will occur; sent a cancellation receipt.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-000",
+    "deployment_version": "v2",
+    "ticket_text": "I was charged twice for my October subscription and need one refunded.",
+    "category": "billing",
+    "resolution_summary": "Thanks for reaching out about your subscription. You can view all invoices in the billing dashboard under Account Settings.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-001",
+    "deployment_version": "v2",
+    "ticket_text": "The export button throws a 500 error every time I click it.",
+    "category": "technical",
+    "resolution_summary": "Exports are a popular feature. Make sure you are on the latest version and have a stable internet connection for best results.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-002",
+    "deployment_version": "v2",
+    "ticket_text": "I can't log in, it says my account is locked after a password reset.",
+    "category": "account",
+    "resolution_summary": "Account security is important to us. We recommend enabling two-factor authentication to keep your account safe.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-003",
+    "deployment_version": "v2",
+    "ticket_text": "My invoice shows the wrong company name and I need it corrected.",
+    "category": "billing",
+    "resolution_summary": "Invoices are generated automatically each month. You can download them any time from the billing section.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-004",
+    "deployment_version": "v2",
+    "ticket_text": "The mobile app crashes on startup after the latest update.",
+    "category": "technical",
+    "resolution_summary": "We release updates regularly to improve the mobile experience. Please keep auto-update enabled in your app store.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-005",
+    "deployment_version": "v2",
+    "ticket_text": "I was promised a 20% discount but it wasn't applied at checkout.",
+    "category": "billing",
+    "resolution_summary": "Discounts and promotions appear on our pricing page from time to time. Sign up for the newsletter to hear about offers.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-006",
+    "deployment_version": "v2",
+    "ticket_text": "API returns 401 even with a freshly generated key.",
+    "category": "technical",
+    "resolution_summary": "Our API is well documented. Review the authentication guide and ensure your request includes the Authorization header.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-007",
+    "deployment_version": "v2",
+    "ticket_text": "Please delete my account and all associated data per my request.",
+    "category": "account",
+    "resolution_summary": "We value your privacy. Our privacy policy explains how we handle and store customer data across our services.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-008",
+    "deployment_version": "v2",
+    "ticket_text": "You charged my old card instead of the new one I added.",
+    "category": "billing",
+    "resolution_summary": "You can manage saved payment methods under Billing. Adding a card does not remove older ones automatically.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-009",
+    "deployment_version": "v2",
+    "ticket_text": "Search results are completely empty even for exact title matches.",
+    "category": "technical",
+    "resolution_summary": "Search works best with specific keywords. Try narrowing your query and using filters to improve relevance.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-010",
+    "deployment_version": "v2",
+    "ticket_text": "I need to transfer ownership of the workspace to a colleague.",
+    "category": "account",
+    "resolution_summary": "Workspaces support multiple roles. Admins can be added from the team settings page whenever you need them.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-011",
+    "deployment_version": "v2",
+    "ticket_text": "The dashboard shows last week's numbers, not today's.",
+    "category": "technical",
+    "resolution_summary": "Dashboards refresh periodically. You can also click refresh in the top right to pull the latest view.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "TCK-012",
+    "deployment_version": "v2",
+    "ticket_text": "Cancel my plan; I do not want to be billed next cycle.",
+    "category": "billing",
+    "resolution_summary": "We are sorry to see you go. Plans can be changed or cancelled at any time from the subscription page.",
+    "created_at": "2026-10-05"
+  }
+]

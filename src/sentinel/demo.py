@@ -18,9 +18,12 @@ from rich.text import Text
 from .adapter import process_batch
 from .circuit_breaker import evaluate_gate
 from .config import settings
+from .datasets import DatasetSpec, get_dataset
 from .metrics import compute_loop_metrics
-from .schemas import DEMO_QUESTIONS, CircuitState, RowEvaluation
+from .schemas import CircuitState, QuestionType, RowEvaluation
 from .warehouse import Warehouse
+
+_CHECKS = ["completeness", "schema", "uniqueness", "freshness"]
 
 console = Console()
 
@@ -34,15 +37,13 @@ def _deterministic_panel(wh: Warehouse) -> None:
     table = Table(show_header=True, header_style="bold cyan")
     table.add_column("deployment")
     table.add_column("rows", justify="right")
-    for check in ["completeness_null_summary", "schema_invalid_category",
-                  "uniqueness_duplicate_id", "freshness_stale_rows"]:
-        table.add_column(check.split("_")[0], justify="center")
+    for check in _CHECKS:
+        table.add_column(check, justify="center")
     for version in ("v1", "v2"):
         rep = wh.deterministic_checks(version)
         cells = [
             "[green]PASS[/]" if rep.failures[c] == 0 else f"[red]{rep.failures[c]} FAIL[/]"
-            for c in ["completeness_null_summary", "schema_invalid_category",
-                      "uniqueness_duplicate_id", "freshness_stale_rows"]
+            for c in _CHECKS
         ]
         table.add_row(version, str(rep.total_rows), *cells)
     console.print(table)
@@ -59,34 +60,37 @@ async def _evaluate_version(wh: Warehouse, version: str) -> list[RowEvaluation]:
         f"(backend=[magenta]{settings.backend}[/], "
         f"concurrency={settings.max_concurrency})"
     )
-    evals = await process_batch(rows, DEMO_QUESTIONS)
+    evals = await process_batch(
+        rows, wh.spec.questions, quality_weights=wh.spec.quality_weights
+    )
     wh.write_metrics(evals)  # layer 5: closed loop
     return evals
 
 
-def _eval_table(version: str, evals: list[RowEvaluation]) -> None:
-    table = Table(title=f"{version} semantic evaluation (typed Jev-style answers)",
+def _format_answer(answer) -> str:
+    if answer.type == QuestionType.SCORE:
+        return f"{answer.score:.1f}"
+    if answer.type == QuestionType.CHOICE:
+        return str(answer.choice)
+    return f"{answer.noul:.2f}"
+
+
+def _eval_table(spec: DatasetSpec, version: str, evals: list[RowEvaluation]) -> None:
+    table = Table(title=f"{version} semantic evaluation (typed Jev answers)",
                   show_header=True, header_style="bold cyan", title_justify="left")
     table.add_column("row")
-    table.add_column("addresses_ticket", justify="right")
-    table.add_column("category_ok", justify="right")
-    table.add_column("resolution(1-5)", justify="right")
+    for q in spec.questions:
+        table.add_column(q.header, justify="right")
     table.add_column("quality", justify="right")
     for e in evals:
-        a = e.answers
         q = e.quality
         qcol = "green" if q >= 0.7 else ("yellow" if q >= 0.5 else "red")
-        table.add_row(
-            e.row_id,
-            f"{a['summary_addresses_ticket'].noul:.2f}",
-            f"{a['category_correct'].noul:.2f}",
-            f"{a['resolution_quality'].score:.1f}",
-            f"[{qcol}]{q:.2f}[/]",
-        )
+        cells = [_format_answer(e.answers[question.key]) for question in spec.questions]
+        table.add_row(e.row_id, *cells, f"[{qcol}]{q:.2f}[/]")
     console.print(table)
 
 
-def _breaker_panel(decision, review: list[RowEvaluation]) -> None:
+def _breaker_panel(decision, review: list[RowEvaluation], reason: str) -> None:
     tripped = decision.state == CircuitState.OPEN
     head = "🚨 CIRCUIT BREAKER TRIPPED (OPEN)" if tripped else "✅ CIRCUIT CLOSED"
     body = Text()
@@ -107,8 +111,7 @@ def _breaker_panel(decision, review: list[RowEvaluation]) -> None:
         rt.add_column("quality", justify="right")
         rt.add_column("why flagged")
         for e in review:
-            rt.add_row(e.row_id, f"{e.quality:.2f}",
-                       "resolution_summary does not address the ticket")
+            rt.add_row(e.row_id, f"{e.quality:.2f}", reason)
         console.print(rt)
 
 
@@ -134,34 +137,36 @@ def _metrics_panel(all_evals: list[RowEvaluation]) -> None:
 
 
 async def run() -> int:
+    spec = get_dataset(settings.dataset)
     console.print(Panel.fit(
         "[bold]semantic-drift-sentinel[/]\n"
         "semantic quality as a continuous infrastructure metric\n"
-        "[dim]BigQuery → Cloud Run (async) → Jev typed eval → circuit breaker → closed loop[/]",
+        f"[dim]dataset = {spec.name}[/]\n"
+        f"[dim]{spec.headline}[/]",
         border_style="magenta"))
 
-    wh = Warehouse()
+    wh = Warehouse(spec, path=f"data/warehouse_{spec.name}.duckdb")
     wh.seed()
 
     _deterministic_panel(wh)
 
     _rule("2-3 · Cloud Run async adapter  →  Jev typed semantic evaluation")
     v1 = await _evaluate_version(wh, "v1")
-    _eval_table("v1", v1)
+    _eval_table(spec, "v1", v1)
     v2 = await _evaluate_version(wh, "v2")
-    _eval_table("v2", v2)
+    _eval_table(spec, "v2", v2)
 
     baseline = sum(e.quality for e in v1) / len(v1)
     _rule("4 · data circuit breaker")
     decision, review = evaluate_gate(v2, "v2", baseline_quality=baseline)
-    _breaker_panel(decision, review)
+    _breaker_panel(decision, review, spec.review_reason)
 
     _metrics_panel(v1 + v2)
 
     _rule("5 · closed loop")
     console.print(
         "Versioned quality metrics written back to the warehouse "
-        f"([dim]{settings.warehouse_path}[/]). Query drift over time:")
+        f"([dim]{wh.path}[/]). Query drift over time:")
     for row in wh.drift_by_version():
         console.print(
             f"  {row['deployment_version']}: n={row['n']} "

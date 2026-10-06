@@ -70,3 +70,39 @@ async def test_idempotent_evaluation(wh):
     # Same row id@version must collapse to one stable result.
     by_key = {(e.row_id, e.deployment_version): e.quality for e in evals}
     assert len(by_key) == len(rows)
+
+
+# --- consumer-goods dataset: category drift in a valid enum column ----------
+
+from sentinel.datasets import get_dataset  # noqa: E402
+
+
+@pytest.fixture()
+def goods_wh(tmp_path):
+    w = Warehouse(get_dataset("goods"), path=str(tmp_path / "goods.duckdb"))
+    w.seed()
+    yield w
+    w.close()
+
+
+def test_goods_deterministic_checks_all_pass(goods_wh):
+    # The drifted category (e.g. iPhone -> Home Appliances) is still a VALID
+    # enum value, so every deterministic check passes on both versions.
+    for version in ("v1", "v2"):
+        rep = goods_wh.deterministic_checks(version)
+        assert rep.all_passed, f"{version} should pass every deterministic check"
+        assert rep.total_rows == 12
+
+
+@requires_jev
+@pytest.mark.asyncio
+async def test_goods_category_drift_is_detected(goods_wh):
+    spec = goods_wh.spec
+    v1 = await process_batch(goods_wh.rows_to_evaluate("v1"), spec.questions,
+                             quality_weights=spec.quality_weights)
+    v2 = await process_batch(goods_wh.rows_to_evaluate("v2"), spec.questions,
+                             quality_weights=spec.quality_weights)
+    mean_v1 = sum(e.quality for e in v1) / len(v1)
+    mean_v2 = sum(e.quality for e in v2) / len(v2)
+    # v2 silently miscategorised: semantic quality must drop clearly.
+    assert mean_v1 - mean_v2 > 0.15

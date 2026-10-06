@@ -30,16 +30,15 @@ async def _evaluate_one(
     seen: dict[str, RowEvaluation],
     row: dict,
     questions: list[Question],
+    quality_weights: dict[str, float] | None = None,
 ) -> RowEvaluation:
     key = _row_id(row)
     if key in seen:  # idempotency: never pay to score the same row twice
         return seen[key]
 
-    state = {
-        "ticket_text": row["ticket_text"],
-        "category": row["category"],
-        "resolution_summary": row["resolution_summary"],
-    }
+    # The row's content columns are the Jev `state`; row_id and
+    # deployment_version are bookkeeping, not part of what gets scored.
+    state = {k: v for k, v in row.items() if k not in ("row_id", "deployment_version")}
 
     async with sem:  # strict concurrency throttle -> cost + rate-limit control
         start = time.perf_counter()
@@ -51,7 +50,7 @@ async def _evaluate_one(
         row_id=row["row_id"],
         deployment_version=row["deployment_version"],
         answers=answers,
-        quality=aggregate_quality(answers),
+        quality=aggregate_quality(answers, quality_weights),
         backend=evaluator.name,
         latency_ms=latency_ms,
         cost_usd=cost,
@@ -79,6 +78,7 @@ async def process_batch(
     rows: list[dict],
     questions: list[Question],
     evaluator: Evaluator | None = None,
+    quality_weights: dict[str, float] | None = None,
 ) -> list[RowEvaluation]:
     """Fan rows out under a concurrency cap, in batches, with idempotency."""
     evaluator = evaluator or get_evaluator()
@@ -90,7 +90,10 @@ async def process_batch(
         batch = rows[i : i + settings.batch_size]
         results.extend(
             await asyncio.gather(
-                *(_evaluate_one(evaluator, sem, seen, r, questions) for r in batch)
+                *(
+                    _evaluate_one(evaluator, sem, seen, r, questions, quality_weights)
+                    for r in batch
+                )
             )
         )
     return results

@@ -1,0 +1,194 @@
+[
+  {
+    "row_id": "SKU-000",
+    "deployment_version": "v1",
+    "product_name": "iPhone 15 Pro",
+    "category": "Mobile",
+    "description": "Apple flagship smartphone with the A17 Pro chip, 6.1-inch display, and a triple-camera system.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-001",
+    "deployment_version": "v1",
+    "product_name": "Samsung Galaxy S24 Ultra",
+    "category": "Mobile",
+    "description": "Android smartphone with a built-in S Pen, 200MP camera, and a 6.8-inch AMOLED display.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-002",
+    "deployment_version": "v1",
+    "product_name": "MacBook Air M3",
+    "category": "Computers",
+    "description": "Thin and light laptop with the Apple M3 chip and a 13-inch Liquid Retina display.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-003",
+    "deployment_version": "v1",
+    "product_name": "Dell XPS 15 Laptop",
+    "category": "Computers",
+    "description": "Windows creator laptop with Intel Core Ultra and a 15-inch OLED touchscreen.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-004",
+    "deployment_version": "v1",
+    "product_name": "Sony WH-1000XM5 Headphones",
+    "category": "Audio",
+    "description": "Wireless over-ear noise-cancelling headphones with up to 30 hours of battery life.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-005",
+    "deployment_version": "v1",
+    "product_name": "Bose SoundLink Flex Speaker",
+    "category": "Audio",
+    "description": "Portable Bluetooth speaker with deep bass and a waterproof, rugged design.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-006",
+    "deployment_version": "v1",
+    "product_name": "Apple Watch Series 9",
+    "category": "Wearables",
+    "description": "Smartwatch with heart-rate and blood-oxygen sensors, an always-on Retina display, and GPS.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-007",
+    "deployment_version": "v1",
+    "product_name": "Fitbit Charge 6 Band",
+    "category": "Wearables",
+    "description": "Fitness band that tracks heart rate, steps, and sleep with a seven-day battery.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-008",
+    "deployment_version": "v1",
+    "product_name": "LG C3 65-inch OLED TV",
+    "category": "Television",
+    "description": "4K OLED smart TV with webOS, Dolby Vision, and a 120Hz panel for gaming.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-009",
+    "deployment_version": "v1",
+    "product_name": "Dyson V15 Detect Vacuum",
+    "category": "Home Appliances",
+    "description": "Cordless stick vacuum with laser dust detection and whole-machine HEPA filtration.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-010",
+    "deployment_version": "v1",
+    "product_name": "Instant Pot Duo 7-in-1",
+    "category": "Home Appliances",
+    "description": "Electric pressure cooker that pressure-cooks, slow-cooks, steams, and sautes in one pot.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-011",
+    "deployment_version": "v1",
+    "product_name": "Anker 65W USB-C Charger",
+    "category": "Accessories",
+    "description": "Compact 65W GaN fast charger with two USB-C ports for laptops and phones.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-000",
+    "deployment_version": "v2",
+    "product_name": "iPhone 15 Pro",
+    "category": "Home Appliances",
+    "description": "Apple flagship smartphone with the A17 Pro chip, 6.1-inch display, and a triple-camera system.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-001",
+    "deployment_version": "v2",
+    "product_name": "Samsung Galaxy S24 Ultra",
+    "category": "Television",
+    "description": "Android smartphone with a built-in S Pen, 200MP camera, and a 6.8-inch AMOLED display.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-002",
+    "deployment_version": "v2",
+    "product_name": "MacBook Air M3",
+    "category": "Audio",
+    "description": "Thin and light laptop with the Apple M3 chip and a 13-inch Liquid Retina display.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-003",
+    "deployment_version": "v2",
+    "product_name": "Dell XPS 15 Laptop",
+    "category": "Accessories",
+    "description": "Windows creator laptop with Intel Core Ultra and a 15-inch OLED touchscreen.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-004",
+    "deployment_version": "v2",
+    "product_name": "Sony WH-1000XM5 Headphones",
+    "category": "Mobile",
+    "description": "Wireless over-ear noise-cancelling headphones with up to 30 hours of battery life.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-005",
+    "deployment_version": "v2",
+    "product_name": "Bose SoundLink Flex Speaker",
+    "category": "Home Appliances",
+    "description": "Portable Bluetooth speaker with deep bass and a waterproof, rugged design.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-006",
+    "deployment_version": "v2",
+    "product_name": "Apple Watch Series 9",
+    "category": "Home Appliances",
+    "description": "Smartwatch with heart-rate and blood-oxygen sensors, an always-on Retina display, and GPS.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-007",
+    "deployment_version": "v2",
+    "product_name": "Fitbit Charge 6 Band",
+    "category": "Mobile",
+    "description": "Fitness band that tracks heart rate, steps, and sleep with a seven-day battery.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-008",
+    "deployment_version": "v2",
+    "product_name": "LG C3 65-inch OLED TV",
+    "category": "Mobile",
+    "description": "4K OLED smart TV with webOS, Dolby Vision, and a 120Hz panel for gaming.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-009",
+    "deployment_version": "v2",
+    "product_name": "Dyson V15 Detect Vacuum",
+    "category": "Computers",
+    "description": "Cordless stick vacuum with laser dust detection and whole-machine HEPA filtration.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-010",
+    "deployment_version": "v2",
+    "product_name": "Instant Pot Duo 7-in-1",
+    "category": "Audio",
+    "description": "Electric pressure cooker that pressure-cooks, slow-cooks, steams, and sautes in one pot.",
+    "created_at": "2026-10-05"
+  },
+  {
+    "row_id": "SKU-011",
+    "deployment_version": "v2",
+    "product_name": "Anker 65W USB-C Charger",
+    "category": "Wearables",
+    "description": "Compact 65W GaN fast charger with two USB-C ports for laptops and phones.",
+    "created_at": "2026-10-05"
+  }
+]

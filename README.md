@@ -81,6 +81,28 @@ The core question, answered automatically on every deployment:
 
 ---
 
+## Two drift scenarios
+
+The pipeline is generic over its data (see [`datasets.py`](src/sentinel/datasets.py)).
+Two sample datasets ship with the repo; pick one with the `DATASET` env var.
+
+| Dataset | Where the meaning drifts | Deterministic checks |
+|---------|--------------------------|----------------------|
+| `tickets` (default) | a free-text column: v2 resolution summaries stop addressing the ticket | all pass |
+| `goods` | an enum column: v2 silently miscategorises products into a different valid category | all pass |
+
+The consumer goods case is the subtle one: the drifted category is still a
+**valid enum value**, the product name and description are untouched, so schema,
+completeness, uniqueness, and freshness are all green. Only the *meaning* of the
+category is wrong, and only the semantic evaluator catches it.
+
+```bash
+make demo-tickets      # support-ticket summary drift (default)
+make demo-goods        # consumer goods data drift
+```
+
+---
+
 ## The typed evaluator (the "TypeSafe" boundary)
 
 The semantic layer is powered by [**Jev**](https://typesafe.ai), the TypeSafe AI
