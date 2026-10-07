@@ -11,9 +11,6 @@ pattern that catches those silent meaning changes without blowing up your cloud
 compute budget. It treats a semantic quality score as a first-class ops metric
 you monitor in production, with a circuit breaker at the gate.
 
-> Built for a 5-minute live demo at **AI Tinkerers Phoenix**. `git clone` →
-> set `TYPESAFE_API_KEY` → `make demo` → live output in under a minute.
-
 **📊 Visual explainer:** [**tanishque99.github.io/semantic-drift-sentinel**](https://tanishque99.github.io/semantic-drift-sentinel/), an interactive walkthrough of the whole pattern (also in [`index.html`](index.html), open it locally with no server).
 
 ```bash
