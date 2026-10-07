@@ -1,0 +1,13 @@
+row_id,item,column,v1,v2
+SKU-000,iPhone 15 Pro,category,Mobile,Home Appliances
+SKU-001,Samsung Galaxy S24 Ultra,category,Mobile,Television
+SKU-002,MacBook Air M3,category,Computers,Audio
+SKU-003,Dell XPS 15 Laptop,category,Computers,Accessories
+SKU-004,Sony WH-1000XM5 Headphones,category,Audio,Mobile
+SKU-005,Bose SoundLink Flex Speaker,category,Audio,Home Appliances
+SKU-006,Apple Watch Series 9,category,Wearables,Home Appliances
+SKU-007,Fitbit Charge 6 Band,category,Wearables,Mobile
+SKU-008,LG C3 65-inch OLED TV,category,Television,Mobile
+SKU-009,Dyson V15 Detect Vacuum,category,Home Appliances,Computers
+SKU-010,Instant Pot Duo 7-in-1,category,Home Appliances,Audio
+SKU-011,Anker 65W USB-C Charger,category,Accessories,Wearables

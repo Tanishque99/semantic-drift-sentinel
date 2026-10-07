@@ -1,0 +1,93 @@
+[
+  {
+    "row_id": "TCK-000",
+    "item": "I was charged twice for my October subscription and need one refunded.",
+    "column": "resolution_summary",
+    "v1": "Confirmed the duplicate October charge and issued a refund for the extra subscription payment; it will post in 3-5 business days.",
+    "v2": "Thanks for reaching out about your subscription. You can view all invoices in the billing dashboard under Account Settings."
+  },
+  {
+    "row_id": "TCK-001",
+    "item": "The export button throws a 500 error every time I click it.",
+    "column": "resolution_summary",
+    "v1": "Reproduced the 500 on export, traced it to a timeout in the report service, deployed a fix, and verified export now completes.",
+    "v2": "Exports are a popular feature. Make sure you are on the latest version and have a stable internet connection for best results."
+  },
+  {
+    "row_id": "TCK-002",
+    "item": "I can't log in, it says my account is locked after a password reset.",
+    "column": "resolution_summary",
+    "v1": "Unlocked the account that was flagged by the reset flow and sent a fresh reset link; confirmed the customer logged in successfully.",
+    "v2": "Account security is important to us. We recommend enabling two-factor authentication to keep your account safe."
+  },
+  {
+    "row_id": "TCK-003",
+    "item": "My invoice shows the wrong company name and I need it corrected.",
+    "column": "resolution_summary",
+    "v1": "Updated the billing profile company name and reissued the corrected invoice PDF for the current period.",
+    "v2": "Invoices are generated automatically each month. You can download them any time from the billing section."
+  },
+  {
+    "row_id": "TCK-004",
+    "item": "The mobile app crashes on startup after the latest update.",
+    "column": "resolution_summary",
+    "v1": "Identified a null-state crash on cold start in the latest build, shipped a hotfix, and confirmed the app launches cleanly.",
+    "v2": "We release updates regularly to improve the mobile experience. Please keep auto-update enabled in your app store."
+  },
+  {
+    "row_id": "TCK-005",
+    "item": "I was promised a 20% discount but it wasn't applied at checkout.",
+    "column": "resolution_summary",
+    "v1": "Found the missing promo on the order, applied the 20% discount retroactively, and refunded the difference to the card on file.",
+    "v2": "Discounts and promotions appear on our pricing page from time to time. Sign up for the newsletter to hear about offers."
+  },
+  {
+    "row_id": "TCK-006",
+    "item": "API returns 401 even with a freshly generated key.",
+    "column": "resolution_summary",
+    "v1": "Found the new key was scoped to the wrong project; regenerated it with the correct scope and confirmed authenticated calls succeed.",
+    "v2": "Our API is well documented. Review the authentication guide and ensure your request includes the Authorization header."
+  },
+  {
+    "row_id": "TCK-007",
+    "item": "Please delete my account and all associated data per my request.",
+    "column": "resolution_summary",
+    "v1": "Verified identity, queued the account and associated data for deletion within 30 days, and sent written confirmation.",
+    "v2": "We value your privacy. Our privacy policy explains how we handle and store customer data across our services."
+  },
+  {
+    "row_id": "TCK-008",
+    "item": "You charged my old card instead of the new one I added.",
+    "column": "resolution_summary",
+    "v1": "Set the newly added card as default, voided the charge on the old card, and reprocessed payment on the correct card.",
+    "v2": "You can manage saved payment methods under Billing. Adding a card does not remove older ones automatically."
+  },
+  {
+    "row_id": "TCK-009",
+    "item": "Search results are completely empty even for exact title matches.",
+    "column": "resolution_summary",
+    "v1": "Found the search index had not rebuilt after migration; triggered a reindex and confirmed exact-title queries return results.",
+    "v2": "Search works best with specific keywords. Try narrowing your query and using filters to improve relevance."
+  },
+  {
+    "row_id": "TCK-010",
+    "item": "I need to transfer ownership of the workspace to a colleague.",
+    "column": "resolution_summary",
+    "v1": "Transferred workspace ownership to the specified colleague after admin confirmation and verified their new owner permissions.",
+    "v2": "Workspaces support multiple roles. Admins can be added from the team settings page whenever you need them."
+  },
+  {
+    "row_id": "TCK-011",
+    "item": "The dashboard shows last week's numbers, not today's.",
+    "column": "resolution_summary",
+    "v1": "Traced stale dashboard data to a broken nightly ETL job, re-ran it, and confirmed the dashboard now reflects today's numbers.",
+    "v2": "Dashboards refresh periodically. You can also click refresh in the top right to pull the latest view."
+  },
+  {
+    "row_id": "TCK-012",
+    "item": "Cancel my plan; I do not want to be billed next cycle.",
+    "column": "resolution_summary",
+    "v1": "Cancelled the plan effective end of the current cycle and confirmed no further charges will occur; sent a cancellation receipt.",
+    "v2": "We are sorry to see you go. Plans can be changed or cancelled at any time from the subscription page."
+  }
+]

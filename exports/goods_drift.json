@@ -1,0 +1,86 @@
+[
+  {
+    "row_id": "SKU-000",
+    "item": "iPhone 15 Pro",
+    "column": "category",
+    "v1": "Mobile",
+    "v2": "Home Appliances"
+  },
+  {
+    "row_id": "SKU-001",
+    "item": "Samsung Galaxy S24 Ultra",
+    "column": "category",
+    "v1": "Mobile",
+    "v2": "Television"
+  },
+  {
+    "row_id": "SKU-002",
+    "item": "MacBook Air M3",
+    "column": "category",
+    "v1": "Computers",
+    "v2": "Audio"
+  },
+  {
+    "row_id": "SKU-003",
+    "item": "Dell XPS 15 Laptop",
+    "column": "category",
+    "v1": "Computers",
+    "v2": "Accessories"
+  },
+  {
+    "row_id": "SKU-004",
+    "item": "Sony WH-1000XM5 Headphones",
+    "column": "category",
+    "v1": "Audio",
+    "v2": "Mobile"
+  },
+  {
+    "row_id": "SKU-005",
+    "item": "Bose SoundLink Flex Speaker",
+    "column": "category",
+    "v1": "Audio",
+    "v2": "Home Appliances"
+  },
+  {
+    "row_id": "SKU-006",
+    "item": "Apple Watch Series 9",
+    "column": "category",
+    "v1": "Wearables",
+    "v2": "Home Appliances"
+  },
+  {
+    "row_id": "SKU-007",
+    "item": "Fitbit Charge 6 Band",
+    "column": "category",
+    "v1": "Wearables",
+    "v2": "Mobile"
+  },
+  {
+    "row_id": "SKU-008",
+    "item": "LG C3 65-inch OLED TV",
+    "column": "category",
+    "v1": "Television",
+    "v2": "Mobile"
+  },
+  {
+    "row_id": "SKU-009",
+    "item": "Dyson V15 Detect Vacuum",
+    "column": "category",
+    "v1": "Home Appliances",
+    "v2": "Computers"
+  },
+  {
+    "row_id": "SKU-010",
+    "item": "Instant Pot Duo 7-in-1",
+    "column": "category",
+    "v1": "Home Appliances",
+    "v2": "Audio"
+  },
+  {
+    "row_id": "SKU-011",
+    "item": "Anker 65W USB-C Charger",
+    "column": "category",
+    "v1": "Accessories",
+    "v2": "Wearables"
+  }
+]
