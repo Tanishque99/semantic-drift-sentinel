@@ -177,6 +177,5 @@ tests/               smoke tests (semantic tests need TYPESAFE_API_KEY)
 
 - **Jev** by [TypeSafe AI](https://typesafe.ai), the "System One" typed
   evaluation model this pattern is built around ([docs](https://docs.typesafe.ai)).
-- Built for [AI Tinkerers Phoenix](https://phoenix.aitinkerers.org/).
 
 MIT licensed.
